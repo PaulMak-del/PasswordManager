@@ -1,10 +1,17 @@
 package com.example.passwordmanager
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.passwordmanager.databinding.ActivityMainBinding
+import com.example.passwordmanager.databinding.ItemBinding
+import com.example.passwordmanager.model.Password
+import com.example.passwordmanager.model.PasswordService
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -32,9 +39,20 @@ class PasswordListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_password_list, container, false)
+        Log.d("ddd", "PasswordListFragment.onCreate()")
+        val view: View = inflater.inflate(R.layout.fragment_password_list, container, false)
+
+        val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
+        val manager: LinearLayoutManager = LinearLayoutManager(view.context)
+        val password: Password = Password(22, "name22", "password22")
+        val passwordService: PasswordService = PasswordService()
+        passwordService.addPassword(password)
+        val adapter = MyAdapter(passwordService.getPasswords())
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = manager
+        return view
     }
 
     companion object {
