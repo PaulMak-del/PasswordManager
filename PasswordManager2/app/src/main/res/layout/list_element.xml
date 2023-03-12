@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/rounded_corner"
+    >
+        <ImageView
+            android:id="@+id/shieldImage"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/passwordNameTextView"
+            app:layout_constraintTop_toTopOf="@id/leftImage"
+            android:src="@drawable/ic_baseline_shield_24"
+        />
+
+        <TextView
+            android:id="@+id/passwordNameTextView"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="@string/password_name_view"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/copyImage"
+            app:layout_constraintStart_toEndOf="@id/shieldImage"
+            app:layout_constraintTop_toTopOf="@+id/leftImage" />
+
+        <ImageView
+            android:id="@+id/copyImage"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/leftImage"
+            app:layout_constraintEnd_toStartOf="@+id/leftImage"
+            app:layout_constraintTop_toTopOf="@+id/leftImage"
+            app:srcCompat="@drawable/ic_baseline_content_copy_24"
+            tools:srcCompat="@drawable/ic_baseline_content_copy_24" />
+
+        <ImageView
+            android:id="@+id/leftImage"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_chevron_left_24" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="passwordNameTextView, copyImage"
+            app:barrierDirection="bottom"/>
+
+        <Space
+            android:layout_height="6dp"
+            android:layout_width="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/barrier" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

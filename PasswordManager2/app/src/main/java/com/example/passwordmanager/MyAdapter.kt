@@ -34,7 +34,8 @@ class MyAdapter(private var passwords: List<Password>) :
         Log.d("ddd", "MyAdapter.onBindViewHolder")
         val password = passwords[position]
         with(holder.binding) {
-            passwordNameTextView.text = password.name
+            //passwordNameTextView.text = password.name
+            el.passwordNameTextView.text = password.name
         }
     }
 
