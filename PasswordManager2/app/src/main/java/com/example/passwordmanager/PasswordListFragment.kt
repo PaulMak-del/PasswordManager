@@ -1,11 +1,15 @@
 package com.example.passwordmanager
 
+import android.graphics.Matrix
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.Toast
+import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.passwordmanager.databinding.ActivityMainBinding
@@ -23,7 +27,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [PasswordListFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class PasswordListFragment : Fragment() {
+class PasswordListFragment : Fragment(), MyAdapter.OnItemClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -49,9 +53,14 @@ class PasswordListFragment : Fragment() {
         val password: Password = Password(22, "name22", "password22")
         val passwordService: PasswordService = PasswordService()
         passwordService.addPassword(password)
-        val adapter = MyAdapter(passwordService.getPasswords())
+        val adapter = MyAdapter(passwordService.getPasswords(), this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = manager
+
+        //===
+
+        //===
+
         return view
     }
 
@@ -73,5 +82,14 @@ class PasswordListFragment : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    override fun onArrowClick(password: Password, iv: ImageView) {
+        Log.d("ddd", "OnArrowClick()")
+    }
+
+    override fun onCopyClick(password: Password, iv: ImageView) {
+        Log.d("ddd", "OnCopyClick()")
+        //copy password into the buffer
     }
 }

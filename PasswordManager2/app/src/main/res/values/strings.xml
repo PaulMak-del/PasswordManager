@@ -6,4 +6,5 @@
     <string name="enter_text">Введите пароль:</string>
     <string name="password_tip">Password</string>
     <string name="password_name_view">Example!</string>
+    <string name="add_password">Add password</string>
 </resources>
