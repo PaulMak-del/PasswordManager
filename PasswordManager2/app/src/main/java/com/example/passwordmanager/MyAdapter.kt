@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.passwordmanager.databinding.ItemBinding
+import com.example.passwordmanager.databinding.OpenElemBinding
 import com.example.passwordmanager.model.Password
 
 class MyAdapter(private var passwords: List<Password>,
@@ -14,8 +15,12 @@ class MyAdapter(private var passwords: List<Password>,
     RecyclerView.Adapter<MyAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
-        fun onArrowClick(password: Password, iv: ImageView)
+        fun onArrowLeftClick(password: Password, iv: OpenElemBinding)
         fun onCopyClick(password: Password, iv: ImageView)
+        fun onArrowRightClick(password: Password, iv: OpenElemBinding)
+        fun onFavoriteClick(password: Password, iv: ImageView)
+        fun onEditCLick(password: Password)
+        fun onDeleteClick(password: Password)
     }
 
     class ViewHolder(
@@ -33,12 +38,24 @@ class MyAdapter(private var passwords: List<Password>,
         Log.d("ddd", "MyAdapter.onBindViewHolder")
         val password = passwords[position]
         with(holder.binding) {
-            el.passwordNameTextView.text = password.name
-            el.leftImage.setOnClickListener {
-                itemClickListener.onArrowClick(password, el.leftImage)
+            elClosed.passwordNameTextView.text = password.name
+            elClosed.leftImage.setOnClickListener {
+                itemClickListener.onArrowLeftClick(password, elOpen)
             }
-            el.copyImage.setOnClickListener {
-                itemClickListener.onCopyClick(password, el.copyImage)
+            elClosed.copyImage.setOnClickListener {
+                itemClickListener.onCopyClick(password, elClosed.copyImage)
+            }
+            elOpen.chevronLeftImageView.setOnClickListener {
+                itemClickListener.onArrowRightClick(password, elOpen)
+            }
+            elOpen.favoriteBorderImageView.setOnClickListener {
+                itemClickListener.onFavoriteClick(password, elOpen.favoriteBorderImageView)
+            }
+            elOpen.deleteImageView.setOnClickListener {
+
+            }
+            elOpen.editImageView.setOnClickListener {
+
             }
         }
     }

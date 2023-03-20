@@ -1,19 +1,16 @@
 package com.example.passwordmanager
 
-import android.graphics.Matrix
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.view.get
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.passwordmanager.databinding.ActivityMainBinding
-import com.example.passwordmanager.databinding.ItemBinding
+import com.example.passwordmanager.databinding.OpenElemBinding
 import com.example.passwordmanager.model.Password
 import com.example.passwordmanager.model.PasswordService
 
@@ -32,6 +29,8 @@ class PasswordListFragment : Fragment(), MyAdapter.OnItemClickListener {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var view: View
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -46,11 +45,11 @@ class PasswordListFragment : Fragment(), MyAdapter.OnItemClickListener {
     ): View {
         // Inflate the layout for this fragment
         Log.d("ddd", "PasswordListFragment.onCreate()")
-        val view: View = inflater.inflate(R.layout.fragment_password_list, container, false)
+        view = inflater.inflate(R.layout.fragment_password_list, container, false)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
         val manager: LinearLayoutManager = LinearLayoutManager(view.context)
-        val password: Password = Password(22, "name22", "password22")
+        val password: Password = Password(22, "name22", "password22", false)
         val passwordService: PasswordService = PasswordService()
         passwordService.addPassword(password)
         val adapter = MyAdapter(passwordService.getPasswords(), this)
@@ -84,12 +83,42 @@ class PasswordListFragment : Fragment(), MyAdapter.OnItemClickListener {
             }
     }
 
-    override fun onArrowClick(password: Password, iv: ImageView) {
+    override fun onArrowLeftClick(password: Password, iv: OpenElemBinding) {
         Log.d("ddd", "OnArrowClick()")
+        iv.chevronLeftImageView.visibility = View.VISIBLE
+        iv.favoriteBorderImageView.visibility = View.VISIBLE
+        iv.deleteImageView.visibility = View.VISIBLE
+        iv.editImageView.visibility = View.VISIBLE
     }
 
     override fun onCopyClick(password: Password, iv: ImageView) {
         Log.d("ddd", "OnCopyClick()")
-        //copy password into the buffer
+        TODO("copy password into the buffer")
+    }
+
+    override fun onArrowRightClick(password: Password, iv: OpenElemBinding) {
+        Log.d("ddd", "OnArrowClick()")
+        iv.chevronLeftImageView.visibility = View.GONE
+        iv.favoriteBorderImageView.visibility = View.GONE
+        iv.deleteImageView.visibility = View.GONE
+        iv.editImageView.visibility = View.GONE
+    }
+
+    override fun onFavoriteClick(password: Password, iv: ImageView) {
+        if (password.isFavorite) {
+            iv.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+            password.isFavorite = false
+        } else {
+            iv.setImageResource(R.drawable.ic_baseline_favorite_24)
+            password.isFavorite = true
+        }
+    }
+
+    override fun onEditCLick(password: Password) {
+        TODO("smt")
+    }
+
+    override fun onDeleteClick(password: Password) {
+        TODO("smt")
     }
 }
