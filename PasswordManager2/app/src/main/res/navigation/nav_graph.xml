@@ -3,29 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/passwordListFragment">
 
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.passwordmanager.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
-        <action
-            android:id="@+id/action_loginFragment_to_passwordListFragment"
-            app:destination="@id/passwordListFragment" />
-    </fragment>
     <fragment
         android:id="@+id/passwordListFragment"
         android:name="com.example.passwordmanager.PasswordListFragment"
         android:label="fragment_password_list"
         tools:layout="@layout/fragment_password_list" >
         <action
-            android:id="@+id/action_passwordListFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            android:id="@+id/action_passwordListFragment_to_addPasswordFragment"
+            app:destination="@id/addPasswordFragment" />
     </fragment>
     <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.example.passwordmanager.SettingsFragment"
-        android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        android:id="@+id/addPasswordFragment"
+        android:name="com.example.passwordmanager.AddPasswordFragment"
+        android:label="fragment_add_password"
+        tools:layout="@layout/fragment_add_password" />
 </navigation>

@@ -5,9 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.passwordmanager.databinding.OpenElemBinding
@@ -55,6 +57,10 @@ class PasswordListFragment : Fragment(), MyAdapter.OnItemClickListener {
         val adapter = MyAdapter(passwordService.getPasswords(), this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = manager
+
+        view.findViewById<Button>(R.id.addButtonView).setOnClickListener {
+            findNavController().navigate(R.id.action_passwordListFragment_to_addPasswordFragment)
+        }
 
         //===
 
