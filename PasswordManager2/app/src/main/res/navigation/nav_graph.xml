@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_passwordListFragment_to_addPasswordFragment"
             app:destination="@id/addPasswordFragment" />
+        <action
+            android:id="@+id/action_passwordListFragment_to_editPasswordFragment"
+            app:destination="@id/editPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/addPasswordFragment"
@@ -21,6 +24,15 @@
         tools:layout="@layout/fragment_add_password" >
         <action
             android:id="@+id/action_addPasswordFragment_to_passwordListFragment"
+            app:destination="@id/passwordListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editPasswordFragment"
+        android:name="com.example.passwordmanager.EditPasswordFragment"
+        android:label="fragment_edit_password"
+        tools:layout="@layout/fragment_edit_password" >
+        <action
+            android:id="@+id/action_editPasswordFragment_to_passwordListFragment"
             app:destination="@id/passwordListFragment" />
     </fragment>
 </navigation>

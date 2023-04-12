@@ -52,10 +52,10 @@ class MyAdapter(private var passwords: List<Password>,
                 itemClickListener.onFavoriteClick(password, elOpen.favoriteBorderImageView)
             }
             elOpen.deleteImageView.setOnClickListener {
-
+                itemClickListener.onDeleteClick(password)
             }
             elOpen.editImageView.setOnClickListener {
-
+                itemClickListener.onEditCLick(password)
             }
         }
     }

@@ -22,8 +22,9 @@ class AddPasswordFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentAddPasswordBinding.inflate(layoutInflater)
+        val view = binding.root
 
         binding.ButtonConfirm.setOnClickListener {
             Snackbar.make(binding.root, "Add password", Snackbar.LENGTH_SHORT).show()
@@ -39,6 +40,6 @@ class AddPasswordFragment : Fragment() {
         }
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_password, container, false)
+        return view
     }
 }
