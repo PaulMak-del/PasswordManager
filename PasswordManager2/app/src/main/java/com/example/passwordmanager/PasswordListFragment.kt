@@ -2,19 +2,19 @@ package com.example.passwordmanager
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.passwordmanager.databinding.OpenElemBinding
 import com.example.passwordmanager.model.Password
 import com.example.passwordmanager.model.PasswordService
+import kotlin.Deprecated as Deprecated1
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -32,6 +32,7 @@ class PasswordListFragment : Fragment(), MyAdapter.OnItemClickListener {
     private var param2: String? = null
 
     private lateinit var view: View
+    private val passwordService = PasswordService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,19 +53,16 @@ class PasswordListFragment : Fragment(), MyAdapter.OnItemClickListener {
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
         val manager: LinearLayoutManager = LinearLayoutManager(view.context)
         val password: Password = Password(22, "name22", "password22", false)
-        val passwordService: PasswordService = PasswordService()
+
         passwordService.addPassword(password)
         val adapter = MyAdapter(passwordService.getPasswords(), this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = manager
 
+        // TODO: Add a ViewModel or smt that can share data with fragments
         view.findViewById<Button>(R.id.addButtonView).setOnClickListener {
             findNavController().navigate(R.id.action_passwordListFragment_to_addPasswordFragment)
         }
-
-        //===
-
-        //===
 
         return view
     }

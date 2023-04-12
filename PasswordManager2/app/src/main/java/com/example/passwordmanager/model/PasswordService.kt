@@ -18,7 +18,7 @@ class PasswordService {
     }
 
     fun getPasswords(): List<Password> {
-        return passwords;
+        return passwords
     }
 
     fun addPassword(password: Password) {

@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Password Manager</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="enter">Войти</string>
     <string name="enter_text">Введите пароль:</string>
     <string name="password_tip">Пароль</string>
@@ -10,29 +9,17 @@
     <string name="passwordNameHint">Введите имя пароля</string>
     <string name="confirm">Подтвердить</string>
     <string name="passwordHint">Пароль</string>
-    <string name="title_activity_menu">MenuActivity</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Password Manager</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
     <string name="action_change_password">Сменить пароль</string>
     <string name="favorite">Избранное</string>
     <string name="all_passwords">Все записи</string>
     <string name="title_activity_login">LoginActivity</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
     <string name="register_text">Придумайте пароль</string>
     <string name="password_not_equal_alert">Пароли не совпадают</string>
+    <string name="old_password">старый пароль</string>
+    <string name="new_password">новый пароль</string>
+    <string name="password_confirm">подтвердите пароль</string>
+    <string name="incorrect_password">Неправильный пароль</string>
+    <string name="password_change_toast">Пароль успешно изменён</string>
 </resources>

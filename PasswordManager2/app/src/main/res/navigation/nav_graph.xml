@@ -18,5 +18,9 @@
         android:id="@+id/addPasswordFragment"
         android:name="com.example.passwordmanager.AddPasswordFragment"
         android:label="fragment_add_password"
-        tools:layout="@layout/fragment_add_password" />
+        tools:layout="@layout/fragment_add_password" >
+        <action
+            android:id="@+id/action_addPasswordFragment_to_passwordListFragment"
+            app:destination="@id/passwordListFragment" />
+    </fragment>
 </navigation>
