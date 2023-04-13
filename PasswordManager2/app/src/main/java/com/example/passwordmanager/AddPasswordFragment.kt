@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.passwordmanager.databinding.ActivityMainBinding
 import com.example.passwordmanager.databinding.FragmentAddPasswordBinding
@@ -19,6 +20,8 @@ import com.google.android.material.snackbar.Snackbar
 class AddPasswordFragment : Fragment() {
     private lateinit var binding: FragmentAddPasswordBinding
 
+    private val viewModel: PasswordsListViewModel by viewModels { factory() }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -28,13 +31,14 @@ class AddPasswordFragment : Fragment() {
 
         binding.ButtonConfirm.setOnClickListener {
             Snackbar.make(binding.root, "Add password", Snackbar.LENGTH_SHORT).show()
-            val name: String = binding.editTextPasswordName.toString()
-            val pass: String = binding.editTextPassword.toString()
+            val name: String = binding.editTextPasswordName.text.toString()
+            val pass: String = binding.editTextPassword.text.toString()
             // TODO: Make id not repeatable
             val id: Long = 12
 
             // TODO: Somehow add pass to DB, I guess
             val password: Password = Password(id, name, pass, false)
+            viewModel.addPassword(password)
 
             findNavController().navigate(R.id.action_addPasswordFragment_to_passwordListFragment)
         }
