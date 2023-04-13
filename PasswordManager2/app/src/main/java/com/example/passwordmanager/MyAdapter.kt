@@ -2,26 +2,34 @@ package com.example.passwordmanager
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.passwordmanager.databinding.ItemBinding
 import com.example.passwordmanager.databinding.OpenElemBinding
 import com.example.passwordmanager.model.Password
+import com.google.android.material.snackbar.Snackbar
 
-class MyAdapter(private var passwords: List<Password>,
-                private val itemClickListener: OnItemClickListener
+interface PasswordActionListener {
+    fun onPasswordDelete(password: Password)
+    fun onPasswordMove(password: Password, moveBy: Int)
+    fun onPasswordDetails(password: Password)
+    fun onPasswordAdd(password: Password)
+}
+
+//class MyAdapter(private var passwords: List<Password>,
+                //private val itemClickListener: OnItemClickListener
+class MyAdapter(private val actionListener: PasswordActionListener
 ) :
-    RecyclerView.Adapter<MyAdapter.ViewHolder>() {
-
-    interface OnItemClickListener {
-        fun onArrowLeftClick(password: Password, iv: OpenElemBinding)
-        fun onCopyClick(password: Password, iv: ImageView)
-        fun onArrowRightClick(password: Password, iv: OpenElemBinding)
-        fun onFavoriteClick(password: Password, iv: ImageView)
-        fun onEditCLick(password: Password)
-        fun onDeleteClick(password: Password)
-    }
+RecyclerView.Adapter<MyAdapter.ViewHolder>() {
+    var passwords: List<Password> = emptyList()
+        set(newValue) {
+            field = newValue
+            notifyDataSetChanged()
+        }
 
     class ViewHolder(
         val binding: ItemBinding
@@ -40,22 +48,41 @@ class MyAdapter(private var passwords: List<Password>,
         with(holder.binding) {
             elClosed.passwordNameTextView.text = password.name
             elClosed.leftImage.setOnClickListener {
-                itemClickListener.onArrowLeftClick(password, elOpen)
+                Log.d("ddd", "OnArrowClick()")
+                elOpen.chevronLeftImageView.visibility = View.VISIBLE
+                elOpen.favoriteBorderImageView.visibility = View.VISIBLE
+                elOpen.deleteImageView.visibility = View.VISIBLE
+                elOpen.editImageView.visibility = View.VISIBLE
             }
             elClosed.copyImage.setOnClickListener {
-                itemClickListener.onCopyClick(password, elClosed.copyImage)
+                Log.d("ddd", "OnCopyClick()")
+                Snackbar.make(root, "OnCopyClick", Snackbar.LENGTH_LONG).show()
+                // TODO: Copy password to buffer
             }
             elOpen.chevronLeftImageView.setOnClickListener {
-                itemClickListener.onArrowRightClick(password, elOpen)
+                Log.d("ddd", "OnArrowClick()")
+                elOpen.chevronLeftImageView.visibility = View.GONE
+                elOpen.favoriteBorderImageView.visibility = View.GONE
+                elOpen.deleteImageView.visibility = View.GONE
+                elOpen.editImageView.visibility = View.GONE
             }
             elOpen.favoriteBorderImageView.setOnClickListener {
-                itemClickListener.onFavoriteClick(password, elOpen.favoriteBorderImageView)
+                if (password.isFavorite) {
+                    elOpen.favoriteBorderImageView.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+                    password.isFavorite = false
+                } else {
+                    elOpen.favoriteBorderImageView.setImageResource(R.drawable.ic_baseline_favorite_24)
+                    password.isFavorite = true
+                }
             }
             elOpen.deleteImageView.setOnClickListener {
-                itemClickListener.onDeleteClick(password)
+                Snackbar.make(root, "OnDeleteClick", Snackbar.LENGTH_LONG).show()
+                actionListener.onPasswordDelete(password)
             }
             elOpen.editImageView.setOnClickListener {
-                itemClickListener.onEditCLick(password)
+                Snackbar.make(root, "OnEditClick", Snackbar.LENGTH_LONG).show()
+                root.findNavController().navigate(R.id.action_passwordListFragment_to_editPasswordFragment)
+                // TODO: Put some data
             }
         }
     }

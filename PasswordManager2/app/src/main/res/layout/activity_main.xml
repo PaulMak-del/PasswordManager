@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
+    android:theme="@style/Theme.Material3.Light.NoActionBar"
+    android:background="@color/design_default_color_background"
     >
 
     <androidx.fragment.app.FragmentContainerView
