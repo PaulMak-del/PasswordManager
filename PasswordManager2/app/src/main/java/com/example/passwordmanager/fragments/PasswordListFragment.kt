@@ -1,4 +1,4 @@
-package com.example.passwordmanager
+package com.example.passwordmanager.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -8,9 +8,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.passwordmanager.*
 import com.example.passwordmanager.databinding.FragmentPasswordListBinding
 import com.example.passwordmanager.model.Password
-import com.example.passwordmanager.model.PasswordService
 
 /**
  * A simple [Fragment] subclass.
@@ -22,7 +22,9 @@ class PasswordListFragment : Fragment() {
     private lateinit var binding: FragmentPasswordListBinding
     private lateinit var adapter: MyAdapter
 
-    private val viewModel: PasswordsListViewModel by viewModels { factory() }
+    private val viewModel: PasswordsListViewModel by viewModels {
+        PasswordViewModelFactory((activity?.application as App).repository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,24 +37,23 @@ class PasswordListFragment : Fragment() {
         view = binding.root
         adapter = MyAdapter(object : PasswordActionListener {
             override fun onPasswordDelete(password: Password) {
-                viewModel.deletePassword(password)
-            }
-
-            override fun onPasswordMove(password: Password, moveBy: Int) {
-                viewModel.movePassword(password, moveBy)
+                viewModel.delete(password)
             }
 
             override fun onPasswordAdd(password: Password) {
-                viewModel.addPassword(password)
+                viewModel.insert(password)
             }
 
             override fun onPasswordDetails(password: Password) {
                 TODO("Not yet implemented")
             }
 
+            override fun onPasswordFavorite(password: Password) {
+                viewModel.update(password)
+            }
         })
 
-        viewModel.passwords.observe(viewLifecycleOwner, Observer {
+        viewModel.allPasswords.observe(viewLifecycleOwner, Observer {
             adapter.passwords = it
         })
 

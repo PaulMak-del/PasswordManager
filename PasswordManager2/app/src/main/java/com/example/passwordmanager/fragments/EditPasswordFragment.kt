@@ -1,11 +1,16 @@
-package com.example.passwordmanager
+package com.example.passwordmanager.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.passwordmanager.App
+import com.example.passwordmanager.PasswordViewModelFactory
+import com.example.passwordmanager.PasswordsListViewModel
+import com.example.passwordmanager.R
 import com.example.passwordmanager.databinding.FragmentEditPasswordBinding
 import com.google.android.material.snackbar.Snackbar
 
@@ -16,6 +21,10 @@ import com.google.android.material.snackbar.Snackbar
  */
 class EditPasswordFragment : Fragment() {
     private lateinit var binding: FragmentEditPasswordBinding
+
+    private val viewModel: PasswordsListViewModel by viewModels {
+        PasswordViewModelFactory((activity?.application as App).repository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,7 +40,7 @@ class EditPasswordFragment : Fragment() {
 
         binding.ButtonConfirm.setOnClickListener {
             Snackbar.make(binding.root, "Confirm button", Snackbar.LENGTH_LONG).show()
-            // TODO: Change password
+            //viewModel.update(password)
         }
 
         return view

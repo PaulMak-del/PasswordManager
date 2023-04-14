@@ -11,10 +11,10 @@ class PasswordService {
     private val listeners = mutableSetOf<PasswordListener>()
 
     init {
-        passwords.add(Password(12, "name1", "password1", false))
-        passwords.add(Password(13, "name2", "password2", false))
-        passwords.add(Password(14, "name3", "password3", false))
-        passwords.add(Password(15, "name4", "password4", false))
+        passwords.add(Password("name1", "password1"))
+        passwords.add(Password("name2", "password2"))
+        passwords.add(Password("name3", "password3"))
+        passwords.add(Password("name4", "password4"))
     }
 
     fun getPasswords(): List<Password> {

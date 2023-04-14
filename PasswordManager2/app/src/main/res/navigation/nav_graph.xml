@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/passwordListFragment"
-        android:name="com.example.passwordmanager.PasswordListFragment"
+        android:name="com.example.passwordmanager.fragments.PasswordListFragment"
         android:label="fragment_password_list"
         tools:layout="@layout/fragment_password_list" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/addPasswordFragment"
-        android:name="com.example.passwordmanager.AddPasswordFragment"
+        android:name="com.example.passwordmanager.fragments.AddPasswordFragment"
         android:label="fragment_add_password"
         tools:layout="@layout/fragment_add_password" >
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/editPasswordFragment"
-        android:name="com.example.passwordmanager.EditPasswordFragment"
+        android:name="com.example.passwordmanager.fragments.EditPasswordFragment"
         android:label="fragment_edit_password"
         tools:layout="@layout/fragment_edit_password" >
         <action

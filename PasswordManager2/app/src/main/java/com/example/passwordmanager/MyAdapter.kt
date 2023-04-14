@@ -1,10 +1,12 @@
 package com.example.passwordmanager
 
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -15,9 +17,9 @@ import com.google.android.material.snackbar.Snackbar
 
 interface PasswordActionListener {
     fun onPasswordDelete(password: Password)
-    fun onPasswordMove(password: Password, moveBy: Int)
     fun onPasswordDetails(password: Password)
     fun onPasswordAdd(password: Password)
+    fun onPasswordFavorite(password: Password)
 }
 
 //class MyAdapter(private var passwords: List<Password>,
@@ -47,6 +49,11 @@ RecyclerView.Adapter<MyAdapter.ViewHolder>() {
         val password = passwords[position]
         with(holder.binding) {
             elClosed.passwordNameTextView.text = password.name
+            if (password.isFavorite) {
+                elOpen.favoriteBorderImageView.setImageResource(R.drawable.ic_baseline_favorite_24)
+            } else {
+                elOpen.favoriteBorderImageView.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+            }
             elClosed.leftImage.setOnClickListener {
                 Log.d("ddd", "OnArrowClick()")
                 elOpen.chevronLeftImageView.visibility = View.VISIBLE
@@ -74,6 +81,7 @@ RecyclerView.Adapter<MyAdapter.ViewHolder>() {
                     elOpen.favoriteBorderImageView.setImageResource(R.drawable.ic_baseline_favorite_24)
                     password.isFavorite = true
                 }
+                actionListener.onPasswordFavorite(password)
             }
             elOpen.deleteImageView.setOnClickListener {
                 Snackbar.make(root, "OnDeleteClick", Snackbar.LENGTH_LONG).show()
@@ -82,7 +90,6 @@ RecyclerView.Adapter<MyAdapter.ViewHolder>() {
             elOpen.editImageView.setOnClickListener {
                 Snackbar.make(root, "OnEditClick", Snackbar.LENGTH_LONG).show()
                 root.findNavController().navigate(R.id.action_passwordListFragment_to_editPasswordFragment)
-                // TODO: Put some data
             }
         }
     }

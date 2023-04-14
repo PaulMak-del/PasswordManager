@@ -1,3 +1,4 @@
+package com.example.passwordmanager.fragments/*
 package com.example.passwordmanager
 
 import androidx.fragment.app.Fragment
@@ -22,3 +23,5 @@ class ViewModelFactory (
 }
 
 fun Fragment.factory() = ViewModelFactory(requireContext().applicationContext as App)
+
+ */
