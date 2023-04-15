@@ -24,4 +24,10 @@ class PasswordRepository(private val passwordDao: PasswordDao) {
     suspend fun update(password: Password) {
         passwordDao.update(password)
     }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun updateById(id: Int, name: String, password: String) {
+        passwordDao.updateById(id, name, password)
+    }
 }

@@ -34,5 +34,17 @@
         <action
             android:id="@+id/action_editPasswordFragment_to_passwordListFragment"
             app:destination="@id/passwordListFragment" />
+        <argument
+            android:name="passwordName"
+            app:argType="string"
+            android:defaultValue="NONE" />
+        <argument
+            android:name="passwordPassword"
+            app:argType="string"
+            android:defaultValue="NONE" />
+        <argument
+            android:name="passwordID"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
 </navigation>

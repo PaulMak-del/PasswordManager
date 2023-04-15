@@ -20,6 +20,10 @@ class PasswordsListViewModel(
     fun update(password: Password) = viewModelScope.launch {
         passwordRepository.update(password)
     }
+
+    fun updateById(id: Int, name: String, password: String) = viewModelScope.launch {
+        passwordRepository.updateById(id, name, password)
+    }
 }
 
 class PasswordViewModelFactory(private val repository: PasswordRepository) : ViewModelProvider.Factory {

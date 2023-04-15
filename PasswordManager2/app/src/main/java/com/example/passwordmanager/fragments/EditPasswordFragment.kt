@@ -1,6 +1,7 @@
 package com.example.passwordmanager.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import com.example.passwordmanager.PasswordViewModelFactory
 import com.example.passwordmanager.PasswordsListViewModel
 import com.example.passwordmanager.R
 import com.example.passwordmanager.databinding.FragmentEditPasswordBinding
+import com.example.passwordmanager.model.Password
 import com.google.android.material.snackbar.Snackbar
 
 /**
@@ -34,13 +36,22 @@ class EditPasswordFragment : Fragment() {
         binding = FragmentEditPasswordBinding.inflate(layoutInflater)
         val view = binding.root
 
+        val id = requireArguments().getInt("passwordID")
+        val name = requireArguments().getString("passwordName")
+        val pass = requireArguments().getString("passwordPassword")
+
+        binding.editTextPassword.setText(pass)
+        binding.editTextPasswordName.setText(name)
+
         binding.ButtonCancel.setOnClickListener {
             findNavController().navigate(R.id.action_editPasswordFragment_to_passwordListFragment)
         }
 
         binding.ButtonConfirm.setOnClickListener {
-            Snackbar.make(binding.root, "Confirm button", Snackbar.LENGTH_LONG).show()
-            //viewModel.update(password)
+            val newName = binding.editTextPasswordName.text.toString()
+            val newPass = binding.editTextPassword.text.toString()
+            viewModel.updateById(id, newName, newPass)
+            findNavController().navigate(R.id.action_editPasswordFragment_to_passwordListFragment)
         }
 
         return view
