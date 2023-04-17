@@ -50,8 +50,13 @@ class EditPasswordFragment : Fragment() {
         binding.ButtonConfirm.setOnClickListener {
             val newName = binding.editTextPasswordName.text.toString()
             val newPass = binding.editTextPassword.text.toString()
-            viewModel.updateById(id, newName, newPass)
-            findNavController().navigate(R.id.action_editPasswordFragment_to_passwordListFragment)
+            if (newName.trim().isEmpty() || newPass.trim().isEmpty()) {
+                Snackbar.make(view, "Поля не должны быть пустыми", Snackbar.LENGTH_LONG).show()
+            }
+            else {
+                viewModel.updateById(id, newName, newPass)
+                findNavController().navigate(R.id.action_editPasswordFragment_to_passwordListFragment)
+            }
         }
 
         return view

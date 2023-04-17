@@ -27,7 +27,6 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val view = binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

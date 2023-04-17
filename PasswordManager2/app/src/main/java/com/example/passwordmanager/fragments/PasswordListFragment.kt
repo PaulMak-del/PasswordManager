@@ -1,16 +1,21 @@
 package com.example.passwordmanager.fragments
 
+import android.content.ClipboardManager
+import android.content.ClipData
+import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.passwordmanager.*
 import com.example.passwordmanager.databinding.FragmentPasswordListBinding
+import com.example.passwordmanager.databinding.OpenElemBinding
 import com.example.passwordmanager.model.Password
 import com.google.android.material.snackbar.Snackbar
 
@@ -23,12 +28,6 @@ class PasswordListFragment : Fragment() {
     private lateinit var view: View
     private lateinit var binding: FragmentPasswordListBinding
     private lateinit var adapter: MyAdapter
-
-    /*
-    private val viewModel: PasswordsListViewModel by viewModels {
-        PasswordViewModelFactory((activity?.application as App).repository)
-    }
-     */
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,16 +44,8 @@ class PasswordListFragment : Fragment() {
         }
 
         adapter = MyAdapter(object : PasswordActionListener {
-            override fun onPasswordDelete(password: Password) {
-                viewModel.delete(password)
-            }
-
             override fun onPasswordAdd(password: Password) {
                 viewModel.insert(password)
-            }
-
-            override fun onPasswordFavorite(password: Password) {
-                viewModel.update(password)
             }
 
             override fun onEditClick(password: Password) {
@@ -64,6 +55,45 @@ class PasswordListFragment : Fragment() {
                 bundle.putString("passwordName", password.name)
                 bundle.putString("passwordPassword", password.password)
                 findNavController().navigate(R.id.action_passwordListFragment_to_editPasswordFragment, bundle)
+            }
+
+            override fun onLeftArrowClick(elOpen: OpenElemBinding) {
+                Log.d("ddd", "OnArrowClick()")
+                elOpen.chevronRightImageView.visibility = View.VISIBLE
+                elOpen.favoriteBorderImageView.visibility = View.VISIBLE
+                elOpen.deleteImageView.visibility = View.VISIBLE
+                elOpen.editImageView.visibility = View.VISIBLE
+            }
+
+            override fun onRightArrowClick(elOpen: OpenElemBinding) {
+                Log.d("ddd", "OnArrowClick()")
+                elOpen.chevronRightImageView.visibility = View.GONE
+                elOpen.favoriteBorderImageView.visibility = View.GONE
+                elOpen.deleteImageView.visibility = View.GONE
+                elOpen.editImageView.visibility = View.GONE
+            }
+
+            override fun onCopyClick(password: Password) {
+                Log.d("ddd", "OnCopyClick()")
+                val clipManager = (view.context.getSystemService(CLIPBOARD_SERVICE)) as ClipboardManager
+                val clipData = ClipData.newPlainText("label", password.password)
+                clipManager.setPrimaryClip(clipData)
+            }
+
+            override fun onDeleteClick(password: Password) {
+                Snackbar.make(view, "OnDeleteClick", Snackbar.LENGTH_LONG).show()
+                viewModel.delete(password)
+            }
+
+            override fun onFavoriteClick(password: Password, elOpen: OpenElemBinding) {
+                if (password.isFavorite) {
+                    elOpen.favoriteBorderImageView.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+                    password.isFavorite = false
+                } else {
+                    elOpen.favoriteBorderImageView.setImageResource(R.drawable.ic_baseline_favorite_24)
+                    password.isFavorite = true
+                }
+                viewModel.update(password)
             }
         })
 

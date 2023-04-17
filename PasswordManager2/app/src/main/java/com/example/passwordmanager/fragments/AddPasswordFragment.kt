@@ -39,10 +39,14 @@ class AddPasswordFragment : Fragment() {
             val name: String = binding.editTextPasswordName.text.toString()
             val pass: String = binding.editTextPassword.text.toString()
 
-            val password: Password = Password(name, pass)
-            viewModel.insert(password)
+            if (name.trim().isEmpty() || pass.trim().isEmpty()) {
+                Snackbar.make(view, "Поля не должны быть пустыми", Snackbar.LENGTH_LONG).show()
+            } else {
+                val password: Password = Password(name, pass)
+                viewModel.insert(password)
 
-            findNavController().navigate(R.id.action_addPasswordFragment_to_passwordListFragment)
+                findNavController().navigate(R.id.action_addPasswordFragment_to_passwordListFragment)
+            }
         }
 
         // Inflate the layout for this fragment

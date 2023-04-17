@@ -28,7 +28,7 @@ class PasswordsListViewModel(
 
 class PasswordViewModelFactory(private val repository: PasswordRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        @Suppress("UNCKECKED_CAST")
+        @Suppress("UNCHECKED_CAST")
         return PasswordsListViewModel(repository) as T
     }
 }

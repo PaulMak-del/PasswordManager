@@ -1,25 +1,22 @@
 package com.example.passwordmanager
 
-import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.core.os.bundleOf
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.passwordmanager.databinding.ItemBinding
 import com.example.passwordmanager.databinding.OpenElemBinding
 import com.example.passwordmanager.model.Password
-import com.google.android.material.snackbar.Snackbar
 
 interface PasswordActionListener {
-    fun onPasswordDelete(password: Password)
     fun onPasswordAdd(password: Password)
-    fun onPasswordFavorite(password: Password)
     fun onEditClick(password: Password)
+    fun onLeftArrowClick(elOpen: OpenElemBinding)
+    fun onRightArrowClick(elOpen: OpenElemBinding)
+    fun onCopyClick(password: Password)
+    fun onDeleteClick(password: Password)
+    fun onFavoriteClick(password: Password, elOpen: OpenElemBinding)
+
 }
 
 class MyAdapter(private val actionListener: PasswordActionListener
@@ -45,39 +42,22 @@ RecyclerView.Adapter<MyAdapter.ViewHolder>() {
                 }
 
                 elClosed.leftImage.setOnClickListener {
-                    Log.d("ddd", "OnArrowClick()")
-                    elOpen.chevronLeftImageView.visibility = View.VISIBLE
-                    elOpen.favoriteBorderImageView.visibility = View.VISIBLE
-                    elOpen.deleteImageView.visibility = View.VISIBLE
-                    elOpen.editImageView.visibility = View.VISIBLE
+                    clickListener.onLeftArrowClick(elOpen)
                 }
                 elOpen.editImageView.setOnClickListener {
                     clickListener.onEditClick(password)
                 }
                 elClosed.copyImage.setOnClickListener {
-                    Log.d("ddd", "OnCopyClick()")
-                    Snackbar.make(root, "OnCopyClick", Snackbar.LENGTH_LONG).show()
-                    // TODO: Copy password to buffer
+                    clickListener.onCopyClick(password)
                 }
-                elOpen.chevronLeftImageView.setOnClickListener {
-                    elOpen.chevronLeftImageView.visibility = View.GONE
-                    elOpen.favoriteBorderImageView.visibility = View.GONE
-                    elOpen.deleteImageView.visibility = View.GONE
-                    elOpen.editImageView.visibility = View.GONE
+                elOpen.chevronRightImageView.setOnClickListener {
+                    clickListener.onRightArrowClick(elOpen)
                 }
                 elOpen.favoriteBorderImageView.setOnClickListener {
-                    if (password.isFavorite) {
-                        elOpen.favoriteBorderImageView.setImageResource(R.drawable.ic_baseline_favorite_border_24)
-                        password.isFavorite = false
-                    } else {
-                        elOpen.favoriteBorderImageView.setImageResource(R.drawable.ic_baseline_favorite_24)
-                        password.isFavorite = true
-                    }
-                    clickListener.onPasswordFavorite(password)
+                    clickListener.onFavoriteClick(password, elOpen)
                 }
                 elOpen.deleteImageView.setOnClickListener {
-                    Snackbar.make(root, "OnDeleteClick", Snackbar.LENGTH_LONG).show()
-                    clickListener.onPasswordDelete(password)
+                    clickListener.onDeleteClick(password)
                 }
             }
         }

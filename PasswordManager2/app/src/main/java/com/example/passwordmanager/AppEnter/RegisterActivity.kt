@@ -21,7 +21,7 @@ class RegisterActivity : AppCompatActivity() {
 
         binding.buttonConfirm.setOnClickListener {
             if (binding.editTextTextPassword.text == binding.editTextTextPasswordConfirm.text) {
-                val password = UserPassword(binding.editTextTextPasswordConfirm.text.toString())
+                // val password = UserPassword(binding.editTextTextPasswordConfirm.text.toString())
                 // TODO("Safe password to database or smt, idk")
 
                 val intent = Intent(this@RegisterActivity, MainActivity::class.java)
