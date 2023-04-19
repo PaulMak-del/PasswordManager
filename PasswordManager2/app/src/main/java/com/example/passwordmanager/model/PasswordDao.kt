@@ -11,8 +11,8 @@ interface PasswordDao {
     @Query("select * from password where favorite == true")
     suspend fun getFavoritePassword() : List<Password>
 
-    @Query("update password set name = :name, password = :password where id == :id")
-    suspend fun updateById(id: Int, name: String, password: String) : Int
+    @Query("update password set name = :name, password = :password, login = :login where id == :id")
+    suspend fun updateById(id: Int, name: String, login: String, password: String) : Int
 
     @Insert
     suspend fun insert(password: Password) : Long

@@ -9,27 +9,23 @@ import com.example.passwordmanager.databinding.OpenElemBinding
 import com.example.passwordmanager.model.Password
 
 interface PasswordActionListener {
-    fun onPasswordAdd(password: Password)
     fun onEditClick(password: Password)
     fun onLeftArrowClick(elOpen: OpenElemBinding)
     fun onRightArrowClick(elOpen: OpenElemBinding)
     fun onCopyClick(password: Password)
-    fun onDeleteClick(password: Password)
+    fun onDeleteClick(password: Password, position: Int)
     fun onFavoriteClick(password: Password, elOpen: OpenElemBinding)
-
 }
 
-class MyAdapter(private val actionListener: PasswordActionListener
+class MyAdapter(
+    private val actionListener: PasswordActionListener,
 ) :
 RecyclerView.Adapter<MyAdapter.ViewHolder>() {
+
     var passwords: List<Password> = emptyList()
-        set(newValue) {
-            field = newValue
-            notifyDataSetChanged()
-        }
 
     class ViewHolder(
-        val binding: ItemBinding
+        private val binding: ItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(password: Password, clickListener: PasswordActionListener) {
@@ -57,7 +53,7 @@ RecyclerView.Adapter<MyAdapter.ViewHolder>() {
                     clickListener.onFavoriteClick(password, elOpen)
                 }
                 elOpen.deleteImageView.setOnClickListener {
-                    clickListener.onDeleteClick(password)
+                    clickListener.onDeleteClick(password, bindingAdapterPosition)
                 }
             }
         }
@@ -71,7 +67,7 @@ RecyclerView.Adapter<MyAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Log.d("ddd", "MyAdapter.onBindViewHolder")
+        Log.d("ddd", "MyAdapter.onBindViewHolder {$position}")
         val password = passwords[position]
         holder.bind(password, actionListener)
     }

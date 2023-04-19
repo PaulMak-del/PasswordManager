@@ -2,12 +2,10 @@ package com.example.passwordmanager.fragments
 
 import android.content.ClipboardManager
 import android.content.ClipData
-import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -19,11 +17,6 @@ import com.example.passwordmanager.databinding.OpenElemBinding
 import com.example.passwordmanager.model.Password
 import com.google.android.material.snackbar.Snackbar
 
-/**
- * A simple [Fragment] subclass.
- * Use the [PasswordListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class PasswordListFragment : Fragment() {
     private lateinit var view: View
     private lateinit var binding: FragmentPasswordListBinding
@@ -44,16 +37,13 @@ class PasswordListFragment : Fragment() {
         }
 
         adapter = MyAdapter(object : PasswordActionListener {
-            override fun onPasswordAdd(password: Password) {
-                viewModel.insert(password)
-            }
-
             override fun onEditClick(password: Password) {
                 Snackbar.make(view, "OnEditClick", Snackbar.LENGTH_LONG).show()
                 val bundle = Bundle()
                 bundle.putInt("passwordID", password.id.toInt())
                 bundle.putString("passwordName", password.name)
                 bundle.putString("passwordPassword", password.password)
+                bundle.putString("passwordLogin", password.login)
                 findNavController().navigate(R.id.action_passwordListFragment_to_editPasswordFragment, bundle)
             }
 
@@ -80,12 +70,17 @@ class PasswordListFragment : Fragment() {
                 clipManager.setPrimaryClip(clipData)
             }
 
-            override fun onDeleteClick(password: Password) {
-                Snackbar.make(view, "OnDeleteClick", Snackbar.LENGTH_LONG).show()
+            override fun onDeleteClick(password: Password, position: Int) {
+                Snackbar.make(view, "OnDeleteClick {$position}", Snackbar.LENGTH_LONG).show()
                 viewModel.delete(password)
+                Log.d("ddd", "OnDeleteClick {$position}")
+                adapter.notifyItemRemoved(position)
             }
 
-            override fun onFavoriteClick(password: Password, elOpen: OpenElemBinding) {
+            override fun onFavoriteClick(
+                password: Password,
+                elOpen: OpenElemBinding,
+            ) {
                 if (password.isFavorite) {
                     elOpen.favoriteBorderImageView.setImageResource(R.drawable.ic_baseline_favorite_border_24)
                     password.isFavorite = false
@@ -96,7 +91,6 @@ class PasswordListFragment : Fragment() {
                 viewModel.update(password)
             }
         })
-
 
         viewModel.allPasswords.observe(viewLifecycleOwner, Observer {
             adapter.passwords = it

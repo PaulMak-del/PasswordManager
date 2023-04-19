@@ -1,5 +1,6 @@
 package com.example.passwordmanager.model
 
+import android.util.Log
 import androidx.annotation.WorkerThread
 import kotlinx.coroutines.flow.Flow
 
@@ -27,7 +28,7 @@ class PasswordRepository(private val passwordDao: PasswordDao) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun updateById(id: Int, name: String, password: String) {
-        passwordDao.updateById(id, name, password)
+    suspend fun updateById(id: Int, name: String, login: String, password: String) {
+        passwordDao.updateById(id, name, login, password)
     }
 }

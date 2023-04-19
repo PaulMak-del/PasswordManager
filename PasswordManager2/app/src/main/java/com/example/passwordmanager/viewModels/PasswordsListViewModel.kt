@@ -1,5 +1,6 @@
 package com.example.passwordmanager
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.passwordmanager.model.Password
 import com.example.passwordmanager.model.PasswordRepository
@@ -21,8 +22,8 @@ class PasswordsListViewModel(
         passwordRepository.update(password)
     }
 
-    fun updateById(id: Int, name: String, password: String) = viewModelScope.launch {
-        passwordRepository.updateById(id, name, password)
+    fun updateById(id: Int, name: String, login: String, password: String) = viewModelScope.launch {
+        passwordRepository.updateById(id, name, login, password)
     }
 }
 

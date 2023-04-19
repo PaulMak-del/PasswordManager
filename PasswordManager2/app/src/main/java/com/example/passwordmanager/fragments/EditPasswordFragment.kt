@@ -38,10 +38,12 @@ class EditPasswordFragment : Fragment() {
 
         val id = requireArguments().getInt("passwordID")
         val name = requireArguments().getString("passwordName")
+        val login = requireArguments().getString("passwordLogin")
         val pass = requireArguments().getString("passwordPassword")
 
         binding.editTextPassword.setText(pass)
         binding.editTextPasswordName.setText(name)
+        binding.editTextLogin.setText(login)
 
         binding.ButtonCancel.setOnClickListener {
             findNavController().navigate(R.id.action_editPasswordFragment_to_passwordListFragment)
@@ -49,12 +51,13 @@ class EditPasswordFragment : Fragment() {
 
         binding.ButtonConfirm.setOnClickListener {
             val newName = binding.editTextPasswordName.text.toString()
+            val newLogin = binding.editTextLogin.text.toString()
             val newPass = binding.editTextPassword.text.toString()
-            if (newName.trim().isEmpty() || newPass.trim().isEmpty()) {
+            if (newName.trim().isEmpty() || newPass.trim().isEmpty() || newLogin.trim().isEmpty()) {
                 Snackbar.make(view, "Поля не должны быть пустыми", Snackbar.LENGTH_LONG).show()
             }
             else {
-                viewModel.updateById(id, newName, newPass)
+                viewModel.updateById(id, newName, newLogin, newPass)
                 findNavController().navigate(R.id.action_editPasswordFragment_to_passwordListFragment)
             }
         }

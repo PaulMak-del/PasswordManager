@@ -8,7 +8,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = arrayOf(Password::class), version = 1, exportSchema = false)
+@Database(entities = arrayOf(Password::class), version = 2)
 abstract class PasswordDatabase : RoomDatabase() {
 
     abstract fun passwordDao(): PasswordDao
@@ -26,9 +26,9 @@ abstract class PasswordDatabase : RoomDatabase() {
         suspend fun populateDatabase(passwordDao: PasswordDao) {
             passwordDao.deleteAll()
 
-            var password = Password("VK", "pass12")
+            var password = Password("VK", "login12", "pass12")
             passwordDao.insert(password)
-            password = Password("Email", "pass13")
+            password = Password("Email", "login13", "pass13")
             passwordDao.insert(password)
         }
     }
@@ -46,7 +46,10 @@ abstract class PasswordDatabase : RoomDatabase() {
                     context.applicationContext,
                     PasswordDatabase::class.java,
                     "word_database"
-                ).addCallback(PasswordDatabaseCallback(scope)).build()
+                )
+                    .fallbackToDestructiveMigration()
+                    .addCallback(PasswordDatabaseCallback(scope))
+                    .build()
                 INSTANCE = instance
                 instance
             }
