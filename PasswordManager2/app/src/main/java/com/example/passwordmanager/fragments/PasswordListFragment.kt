@@ -73,7 +73,8 @@ class PasswordListFragment : Fragment() {
             override fun onDeleteClick(password: Password, position: Int) {
                 Snackbar.make(view, "OnDeleteClick {$position}", Snackbar.LENGTH_LONG).show()
                 viewModel.delete(password)
-                Log.d("ddd", "OnDeleteClick {$position}")
+                // Wait for data removed from DB
+                Thread.sleep(50)
                 adapter.notifyItemRemoved(position)
             }
 

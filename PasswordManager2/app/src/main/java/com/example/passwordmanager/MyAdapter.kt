@@ -22,7 +22,19 @@ class MyAdapter(
 ) :
 RecyclerView.Adapter<MyAdapter.ViewHolder>() {
 
+    /*
+    Отслеживает первое изменение поля паролей, для корректного отображения списка recyclerView
+    на первом запуске
+     */
+    private var onLaunchUpdate: Boolean = false
     var passwords: List<Password> = emptyList()
+        set(value) {
+            field = value
+            if (!onLaunchUpdate) {
+                notifyDataSetChanged()
+                onLaunchUpdate = true
+            }
+        }
 
     class ViewHolder(
         private val binding: ItemBinding

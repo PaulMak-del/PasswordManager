@@ -22,8 +22,8 @@
     <string name="password_confirm">подтвердите пароль</string>
     <string name="incorrect_password">Неправильный пароль</string>
     <string name="password_change_toast">Пароль успешно изменён</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="cancelButton">Отмена</string>
     <string name="login">Логин</string>
+    <string name="email_tip">Введите Email</string>
+    <string name="register_button">Зарегестрироваться</string>
 </resources>

@@ -2,6 +2,7 @@ package com.example.passwordmanager.model
 
 import android.util.Log
 import androidx.annotation.WorkerThread
+import com.example.passwordmanager.MyAdapter
 import kotlinx.coroutines.flow.Flow
 
 class PasswordRepository(private val passwordDao: PasswordDao) {

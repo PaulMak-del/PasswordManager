@@ -14,11 +14,26 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="180dp"
         android:text="@string/enter_text"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPassword"
+        app:layout_constraintStart_toStartOf="@+id/etPassword"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/etEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="64dp"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:hint="@string/email_tip"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewHelper"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <EditText
+        android:id="@+id/etPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
@@ -26,9 +41,9 @@
         android:layout_marginEnd="64dp"
         android:ems="10"
         android:inputType="textPassword"
-        android:text="@string/password_tip"
+        android:hint="@string/password_tip"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewHelper"
+        app:layout_constraintTop_toBottomOf="@+id/etEmail"
         app:layout_constraintEnd_toEndOf="parent"
         />
 
@@ -41,8 +56,22 @@
         android:textAllCaps="false"
         android:background="@drawable/button_background"
         android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword"
-        app:layout_constraintStart_toStartOf="@+id/editTextTextPassword"
+        app:layout_constraintTop_toBottomOf="@+id/etPassword"
+        app:layout_constraintStart_toStartOf="@+id/etPassword"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/registerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/register_button"
+        android:textAllCaps="false"
+        android:background="@drawable/button_background"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/etPassword"
+        app:layout_constraintStart_toEndOf="@+id/buttonConfirm"
         />
 
 

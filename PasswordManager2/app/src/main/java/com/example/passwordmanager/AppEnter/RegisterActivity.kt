@@ -20,7 +20,7 @@ class RegisterActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         binding.buttonConfirm.setOnClickListener {
-            if (binding.editTextTextPassword.text == binding.editTextTextPasswordConfirm.text) {
+            if (binding.etPassword.text == binding.editTextTextPasswordConfirm.text) {
                 // val password = UserPassword(binding.editTextTextPasswordConfirm.text.toString())
                 // TODO("Safe password to database or smt, idk")
 
