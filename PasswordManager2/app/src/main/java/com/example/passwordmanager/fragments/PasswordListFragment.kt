@@ -8,29 +8,34 @@ import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.passwordmanager.*
 import com.example.passwordmanager.databinding.FragmentPasswordListBinding
 import com.example.passwordmanager.databinding.OpenElemBinding
 import com.example.passwordmanager.model.Password
+import com.example.passwordmanager.viewModels.PasswordViewModelFactory
+import com.example.passwordmanager.viewModels.PasswordsListViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class PasswordListFragment : Fragment() {
     private lateinit var view: View
     private lateinit var binding: FragmentPasswordListBinding
     private lateinit var adapter: MyAdapter
+    private lateinit var userID: String
+    // Use int instead of boolean because sqlite don't have it
+    private var isFavoriteFilterOn = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
-        Log.d("ddd", "PasswordListFragment.onCreate()")
 
         binding = FragmentPasswordListBinding.inflate(layoutInflater)
         view = binding.root
+        userID = Firebase.auth.currentUser?.uid ?: "NONE"
 
         val viewModel: PasswordsListViewModel by viewModels {
             PasswordViewModelFactory((activity?.application as App).repository)
@@ -72,7 +77,7 @@ class PasswordListFragment : Fragment() {
 
             override fun onDeleteClick(password: Password, position: Int) {
                 Snackbar.make(view, "OnDeleteClick {$position}", Snackbar.LENGTH_LONG).show()
-                viewModel.delete(password)
+                viewModel.deletePassword(password)
                 // Wait for data removed from DB
                 Thread.sleep(50)
                 adapter.notifyItemRemoved(position)
@@ -89,16 +94,16 @@ class PasswordListFragment : Fragment() {
                     elOpen.favoriteBorderImageView.setImageResource(R.drawable.ic_baseline_favorite_24)
                     password.isFavorite = true
                 }
-                viewModel.update(password)
+                viewModel.updatePassword(password)
             }
         })
 
-        viewModel.allPasswords.observe(viewLifecycleOwner, Observer {
+        viewModel.getPasswords(userID, isFavoriteFilterOn).observe(viewLifecycleOwner) {
             adapter.passwords = it
-        })
+        }
 
         val recyclerView = binding.recyclerView
-        val manager: LinearLayoutManager = LinearLayoutManager(view.context)
+        val manager = LinearLayoutManager(view.context)
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager = manager

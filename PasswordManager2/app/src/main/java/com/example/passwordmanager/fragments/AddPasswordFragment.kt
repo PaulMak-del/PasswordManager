@@ -8,20 +8,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.passwordmanager.App
-import com.example.passwordmanager.PasswordViewModelFactory
-import com.example.passwordmanager.PasswordsListViewModel
+import com.example.passwordmanager.viewModels.PasswordViewModelFactory
+import com.example.passwordmanager.viewModels.PasswordsListViewModel
 import com.example.passwordmanager.R
 import com.example.passwordmanager.databinding.FragmentAddPasswordBinding
 import com.example.passwordmanager.model.Password
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AddPasswordFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AddPasswordFragment : Fragment() {
     private lateinit var binding: FragmentAddPasswordBinding
+    private lateinit var userID: String
 
     private val viewModel: PasswordsListViewModel by viewModels {
         PasswordViewModelFactory((activity?.application as App).repository)
@@ -33,6 +31,7 @@ class AddPasswordFragment : Fragment() {
     ): View {
         binding = FragmentAddPasswordBinding.inflate(layoutInflater)
         val view = binding.root
+        userID = Firebase.auth.currentUser!!.uid
 
         binding.ButtonConfirm.setOnClickListener {
             Snackbar.make(binding.root, "Add password", Snackbar.LENGTH_SHORT).show()
@@ -43,14 +42,13 @@ class AddPasswordFragment : Fragment() {
             if (name.trim().isEmpty() || pass.trim().isEmpty() || login.trim().isEmpty()) {
                 Snackbar.make(view, "Поля не должны быть пустыми", Snackbar.LENGTH_LONG).show()
             } else {
-                val password: Password = Password(name, login, pass)
-                viewModel.insert(password)
+                val password = Password(name, login, pass, userID)
+                viewModel.insertPassword(password)
 
                 findNavController().navigate(R.id.action_addPasswordFragment_to_passwordListFragment)
             }
         }
 
-        // Inflate the layout for this fragment
         return view
     }
 }

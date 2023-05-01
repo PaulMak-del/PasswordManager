@@ -1,29 +1,48 @@
-package com.example.passwordmanager
+package com.example.passwordmanager.viewModels
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.passwordmanager.model.Password
 import com.example.passwordmanager.model.PasswordRepository
+import com.example.passwordmanager.model.User
 import kotlinx.coroutines.launch
 
 class PasswordsListViewModel(
     private val passwordRepository: PasswordRepository
 ) : ViewModel(){
 
-    val allPasswords: LiveData<List<Password>> = passwordRepository.allPasswords.asLiveData()
+    /*
+     * Не созраняются состояния переменных.. ViewModel работает не так??
+    var userID: String = "NONE"
+    var isFavoriteFilterOn = false
+     */
 
-    fun insert(password: Password) = viewModelScope.launch {
-        passwordRepository.insert(password)
-    }
-    fun delete(password: Password) = viewModelScope.launch {
-        passwordRepository.delete(password)
-    }
-    fun update(password: Password) = viewModelScope.launch {
-        passwordRepository.update(password)
+    //val allPasswords: LiveData<List<Password>> = passwordRepository.getUsersPasswords(userID).asLiveData()
+    //val allFavoritePasswords: LiveData<List<Password>> = passwordRepository.getFavoritePasswords(userID).asLiveData()
+    //val allPasswords: LiveData<List<Password>> = getPasswords()
+
+    fun getPasswords(uid: String, isFavorite: Int): LiveData<List<Password>> {
+        return if (isFavorite == 1) {
+            passwordRepository.getFavoritePasswords(uid).asLiveData()
+        } else {
+            passwordRepository.getUsersPasswords(uid).asLiveData()
+        }
     }
 
-    fun updateById(id: Int, name: String, login: String, password: String) = viewModelScope.launch {
-        passwordRepository.updateById(id, name, login, password)
+    fun insertPassword(password: Password) = viewModelScope.launch {
+        passwordRepository.insertPassword(password)
+    }
+    fun insertUser(user: User) = viewModelScope.launch {
+        passwordRepository.insertUser(user)
+    }
+    fun deletePassword(password: Password) = viewModelScope.launch {
+        passwordRepository.deletePassword(password)
+    }
+    fun updatePassword(password: Password) = viewModelScope.launch {
+        passwordRepository.updatePassword(password)
+    }
+
+    fun updatePasswordById(id: Int, name: String, login: String, password: String) = viewModelScope.launch {
+        passwordRepository.updatePasswordById(id, name, login, password)
     }
 }
 

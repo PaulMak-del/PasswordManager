@@ -5,24 +5,27 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PasswordDao {
-    @Query("select * from password")
-    fun getPasswords() : Flow<List<Password>>
+    @Query("select * from password where uid = :uid")
+    fun getUserPasswords(uid: String) : Flow<List<Password>>
 
-    @Query("select * from password where favorite == true")
-    suspend fun getFavoritePassword() : List<Password>
+    @Query("select * from password where favorite = 1 and uid = :uid")
+    fun getFavoritePasswords(uid: String) : Flow<List<Password>>
 
     @Query("update password set name = :name, password = :password, login = :login where id == :id")
-    suspend fun updateById(id: Int, name: String, login: String, password: String) : Int
+    suspend fun updatePasswordById(id: Int, name: String, login: String, password: String) : Int
 
     @Insert
-    suspend fun insert(password: Password) : Long
+    suspend fun insertPassword(password: Password) : Long
+
+    @Insert
+    suspend fun insertUser(user: User) : Long
 
     @Delete
-    suspend fun delete(password: Password) : Int
+    suspend fun deletePassword(password: Password) : Int
 
     @Update
-    suspend fun update(password: Password) : Int
+    suspend fun updatePassword(password: Password) : Int
 
     @Query("delete from password")
-    suspend fun deleteAll() : Int
+    suspend fun deleteAllPasswords() : Int
 }

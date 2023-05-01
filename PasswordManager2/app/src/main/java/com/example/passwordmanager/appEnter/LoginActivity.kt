@@ -1,14 +1,16 @@
-package com.example.passwordmanager.AppEnter
+package com.example.passwordmanager.appEnter
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
-import androidx.navigation.findNavController
+import androidx.activity.viewModels
+import com.example.passwordmanager.App
 import com.example.passwordmanager.MainActivity
-import com.example.passwordmanager.R
 import com.example.passwordmanager.databinding.ActivityLoginBinding
+import com.example.passwordmanager.model.User
+import com.example.passwordmanager.viewModels.PasswordViewModelFactory
+import com.example.passwordmanager.viewModels.PasswordsListViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
@@ -18,6 +20,10 @@ import com.google.firebase.ktx.Firebase
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var auth: FirebaseAuth
+
+    private val viewModel: PasswordsListViewModel by viewModels {
+        PasswordViewModelFactory((this.application as App).repository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +37,6 @@ class LoginActivity : AppCompatActivity() {
 
         val user = auth.currentUser
         if (user != null) {
-            Snackbar.make(view, "User", Snackbar.LENGTH_LONG).show()
             Log.d("ddd", "email: " + user.email.toString())
             Log.d("ddd", "uid: " + user.uid)
 
@@ -48,9 +53,14 @@ class LoginActivity : AppCompatActivity() {
                 }
                 else {
                     auth.createUserWithEmailAndPassword(email, pass)
-                        .addOnCompleteListener() { task ->
+                        .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 Snackbar.make(view, "Register success", Snackbar.LENGTH_LONG).show()
+
+                                // Добавление пользователя в БД при регистрации
+                                val dbUser = User(user?.uid ?: "NONE")
+                                Log.d("ddd", "user id: " + (user?.uid ?: "NONE"))
+                                viewModel.insertUser(dbUser)
                             } else {
                                 Snackbar.make(view, "Register failed", Snackbar.LENGTH_LONG).show()
                             }
@@ -65,7 +75,7 @@ class LoginActivity : AppCompatActivity() {
                     Snackbar.make(view, "Поля не должны быть пустыми", Snackbar.LENGTH_LONG).show()
                 } else {
                     auth.signInWithEmailAndPassword(email, pass)
-                        .addOnCompleteListener() { task ->
+                        .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 Snackbar.make(view, "SingIn Success", Snackbar.LENGTH_LONG).show()
                                 val intent = Intent(this@LoginActivity, MainActivity::class.java)

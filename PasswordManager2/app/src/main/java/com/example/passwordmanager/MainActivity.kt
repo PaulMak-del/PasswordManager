@@ -7,19 +7,10 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.activity.viewModels
-import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.recyclerview.widget.RecyclerView
 import com.example.passwordmanager.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val viewModel: PasswordsListViewModel by viewModels {
-        PasswordViewModelFactory((application as App).repository)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,8 +38,12 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this@MainActivity, ChangePasswordActivity::class.java)
                 startActivity(intent)
             }
-            R.id.action_favorite-> Toast.makeText(this, "favorite", Toast.LENGTH_LONG).show()
-            R.id.action_all_passwords-> Toast.makeText(this, "all", Toast.LENGTH_LONG).show()
+            R.id.action_favorite-> {
+                Toast.makeText(this, "favorite", Toast.LENGTH_LONG).show()
+            }
+            R.id.action_all_passwords-> {
+                Toast.makeText(this, "all", Toast.LENGTH_LONG).show()
+            }
             else -> super.onOptionsItemSelected(item)
         }
         return true
