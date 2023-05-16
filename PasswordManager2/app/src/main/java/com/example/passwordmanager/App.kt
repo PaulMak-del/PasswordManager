@@ -11,4 +11,5 @@ class App : Application() {
     val applicationScope = CoroutineScope(SupervisorJob())
     val database by lazy { PasswordDatabase.getDataBase(this, applicationScope)}
     val repository by lazy { PasswordRepository(database.passwordDao()) }
+    val adapter by lazy { MyAdapter() }
 }

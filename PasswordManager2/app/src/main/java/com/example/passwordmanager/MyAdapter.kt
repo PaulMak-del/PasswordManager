@@ -18,9 +18,10 @@ interface PasswordActionListener {
 }
 
 class MyAdapter(
-    private val actionListener: PasswordActionListener,
+    //private val actionListener: PasswordActionListener,
 ) : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
 
+    lateinit var actionListener: PasswordActionListener
     /*
     Отслеживает первое изменение поля паролей, для корректного отображения списка recyclerView
     на первом запуске

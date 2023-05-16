@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Password Manager</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="enter">Войти</string>
     <string name="enter_text">Введите пароль:</string>
     <string name="password_tip">Пароль</string>

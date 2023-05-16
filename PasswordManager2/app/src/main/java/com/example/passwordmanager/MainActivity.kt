@@ -41,10 +41,18 @@ class MainActivity : AppCompatActivity() {
             R.id.action_favorite-> {
                 Toast.makeText(this, "favorite", Toast.LENGTH_LONG).show()
                 // Должен сказать адаптеру поменять список паролей и уведомить его об изменених
+                val app = application as App
+                app.adapter.passwords = app.adapter.likedPasswords
+                Log.d("ddd", "global adapter: " + app.adapter.toString())
+                app.adapter.notifyDataSetChanged()
             }
             R.id.action_all_passwords-> {
                 Toast.makeText(this, "all", Toast.LENGTH_LONG).show()
                 // Должен сказать адаптеру поменять список паролей и уведомить его об изменених
+                val app = application as App
+                app.adapter.passwords = app.adapter.allPasswords
+                Log.d("ddd", "global adapter: " + app.adapter.toString())
+                app.adapter.notifyDataSetChanged()
             }
             else -> super.onOptionsItemSelected(item)
         }

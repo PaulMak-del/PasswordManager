@@ -25,8 +25,6 @@ class PasswordListFragment : Fragment() {
     private lateinit var binding: FragmentPasswordListBinding
     private lateinit var adapter: MyAdapter
     private lateinit var userID: String
-    // Может сделать фабрику, которая возвращает адаптер, как у viewModel?
-    // Тогда к адаптеру нужно добавить singleton, наверно...
     private val viewModel: PasswordsListViewModel by viewModels {
         PasswordViewModelFactory((activity?.application as App).repository)
     }
@@ -40,7 +38,10 @@ class PasswordListFragment : Fragment() {
         view = binding.root
         userID = Firebase.auth.currentUser?.uid ?: "NONE"
 
-        adapter = MyAdapter(object : PasswordActionListener {
+        adapter = (activity?.application as App).adapter
+        Log.d("ddd", "local adapter: $adapter")
+
+        adapter.actionListener = object : PasswordActionListener {
             override fun onEditClick(password: Password) {
                 Snackbar.make(view, "OnEditClick", Snackbar.LENGTH_LONG).show()
                 val bundle = Bundle()
@@ -79,7 +80,7 @@ class PasswordListFragment : Fragment() {
                 Snackbar.make(view, "OnDeleteClick {$position}", Snackbar.LENGTH_LONG).show()
                 viewModel.deletePassword(password)
                 // Wait for data removed from DB
-                Thread.sleep(50)
+                Thread.sleep(70)
                 adapter.notifyItemRemoved(position)
             }
 
@@ -96,7 +97,7 @@ class PasswordListFragment : Fragment() {
                 }
                 viewModel.updatePassword(password)
             }
-        })
+        }
 
         viewModel.getPasswords(userID, 0).observe(viewLifecycleOwner) {
             adapter.allPasswords = it
@@ -110,10 +111,6 @@ class PasswordListFragment : Fragment() {
         val recyclerView = binding.recyclerView
         val manager = LinearLayoutManager(view.context)
         recyclerView.adapter = adapter
-        // Проверить, являются ли adapter и recyclerView.adapter одним объектом
-        Log.d("ddd", "recyclerView.adapter: " + recyclerView.adapter.toString())
-        Log.d("ddd", "adapter: $adapter")
-
         recyclerView.layoutManager = manager
 
         binding.addButtonView.setOnClickListener {
