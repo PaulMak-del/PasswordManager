@@ -4,36 +4,49 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
-import com.example.passwordmanager.UserData.UserPassword
 import com.example.passwordmanager.databinding.ActivityChangePasswordBinding
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
 class ChangePasswordActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChangePasswordBinding
-    private val userPassword = UserPassword("pass")
+    private lateinit var user: FirebaseUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChangePasswordBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        user = FirebaseAuth.getInstance().currentUser!!
 
-        binding.buttonConfirm.setOnClickListener {
-            Log.d("ddd", "ChangePasswordActivity: button clicked")
-            // TODO("Take user password from DB")
-            if (binding.editTextOldPassword.text.toString() == userPassword.text) {
-                if (binding.editTextNewPassword.text.toString() == binding.editTextNewPasswordConfirm.text.toString()) {
-                    // TODO("Change user password in DB")
-                    userPassword.text = binding.editTextNewPassword.text.toString()
-                    Snackbar.make(binding.root, R.string.password_change_toast, Snackbar.LENGTH_LONG).show()
-                    val intent = Intent(this@ChangePasswordActivity, MainActivity::class.java)
-                    startActivity(intent)
+        with(binding) {
+            buttonConfirm.setOnClickListener {
+                Log.d("ddd", "ChangePasswordActivity: button clicked")
+
+                val oldPass = editTextOldPassword.text.toString()
+                val newPass = editTextNewPassword.text.toString()
+                val newPassConf = editTextNewPasswordConfirm.text.toString()
+
+                if (oldPass.trim().isEmpty() || newPass.trim().isEmpty() || newPassConf.trim().isEmpty()) {
+                    Snackbar.make(view, "Поля не должны быть пустыми", Snackbar.LENGTH_LONG).show()
                 } else {
-                    Toast.makeText(this, R.string.password_not_equal_alert, Toast.LENGTH_LONG).show()
+                    if (newPass.trim() != newPassConf.trim()) {
+                        Snackbar.make(view, "Пароли не совпадают", Snackbar.LENGTH_LONG).show()
+                    } else {
+                        user.updatePassword(newPass.trim())
+                            .addOnCompleteListener {task ->
+                                if (task.isSuccessful) {
+                                    Log.d("ddd", "Change password success")
+                                    val intent = Intent(this@ChangePasswordActivity, MainActivity::class.java)
+                                    startActivity(intent)
+                                } else {
+                                    Log.d("ddd", "Change password failed")
+                                    Snackbar.make(view, "Неправильный пароль", Snackbar.LENGTH_LONG).show()
+                                }
+                            }
+                    }
                 }
-            } else {
-                Toast.makeText(this, R.string.incorrect_password, Toast.LENGTH_LONG).show()
             }
         }
     }

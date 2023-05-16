@@ -7,18 +7,8 @@ import com.example.passwordmanager.model.User
 import kotlinx.coroutines.launch
 
 class PasswordsListViewModel(
-    private val passwordRepository: PasswordRepository
+    private val passwordRepository: PasswordRepository,
 ) : ViewModel(){
-
-    /*
-     * Не созраняются состояния переменных.. ViewModel работает не так??
-    var userID: String = "NONE"
-    var isFavoriteFilterOn = false
-     */
-
-    //val allPasswords: LiveData<List<Password>> = passwordRepository.getUsersPasswords(userID).asLiveData()
-    //val allFavoritePasswords: LiveData<List<Password>> = passwordRepository.getFavoritePasswords(userID).asLiveData()
-    //val allPasswords: LiveData<List<Password>> = getPasswords()
 
     fun getPasswords(uid: String, isFavorite: Int): LiveData<List<Password>> {
         return if (isFavorite == 1) {
@@ -27,7 +17,6 @@ class PasswordsListViewModel(
             passwordRepository.getUsersPasswords(uid).asLiveData()
         }
     }
-
     fun insertPassword(password: Password) = viewModelScope.launch {
         passwordRepository.insertPassword(password)
     }
@@ -40,7 +29,6 @@ class PasswordsListViewModel(
     fun updatePassword(password: Password) = viewModelScope.launch {
         passwordRepository.updatePassword(password)
     }
-
     fun updatePasswordById(id: Int, name: String, login: String, password: String) = viewModelScope.launch {
         passwordRepository.updatePasswordById(id, name, login, password)
     }

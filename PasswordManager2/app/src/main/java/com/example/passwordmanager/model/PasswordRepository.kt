@@ -6,13 +6,8 @@ import kotlinx.coroutines.flow.Flow
 class PasswordRepository(
     private val passwordDao: PasswordDao,
     ) {
-
-    fun getUsersPasswords(userID: String) : Flow<List<Password>> {
-        return passwordDao.getUserPasswords(userID)
-    }
-    fun getFavoritePasswords(uid: String) : Flow<List<Password>> {
-        return passwordDao.getFavoritePasswords(uid)
-    }
+    fun getUsersPasswords(userID: String) : Flow<List<Password>> = passwordDao.getUserPasswords(userID)
+    fun getFavoritePasswords(uid: String) : Flow<List<Password>> = passwordDao.getFavoritePasswords(uid)
     @WorkerThread
     suspend fun insertPassword(password: Password) {
         passwordDao.insertPassword(password)

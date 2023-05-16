@@ -19,14 +19,29 @@ interface PasswordActionListener {
 
 class MyAdapter(
     private val actionListener: PasswordActionListener,
-) :
-RecyclerView.Adapter<MyAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
 
     /*
     Отслеживает первое изменение поля паролей, для корректного отображения списка recyclerView
     на первом запуске
      */
     private var onLaunchUpdate: Boolean = false
+    var allPasswords: List<Password> = emptyList()
+        set(value) {
+            field = value
+            if (!onLaunchUpdate) {
+                notifyDataSetChanged()
+                onLaunchUpdate = true
+            }
+        }
+    var likedPasswords: List<Password> = emptyList()
+        set(value) {
+            field = value
+            if (!onLaunchUpdate) {
+                notifyDataSetChanged()
+                onLaunchUpdate = true
+            }
+        }
     var passwords: List<Password> = emptyList()
         set(value) {
             field = value
@@ -85,7 +100,7 @@ RecyclerView.Adapter<MyAdapter.ViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        Log.d("ddd", "MyAdapter.getItemCount: " + passwords.size.toString())
+        Log.d("ddd", "MyAdapter.getItemCount: " + allPasswords.size.toString())
         return passwords.size
     }
 }

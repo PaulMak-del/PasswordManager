@@ -25,8 +25,11 @@ class PasswordListFragment : Fragment() {
     private lateinit var binding: FragmentPasswordListBinding
     private lateinit var adapter: MyAdapter
     private lateinit var userID: String
-    // Use int instead of boolean because sqlite don't have it
-    private var isFavoriteFilterOn = 0
+    // Может сделать фабрику, которая возвращает адаптер, как у viewModel?
+    // Тогда к адаптеру нужно добавить singleton, наверно...
+    private val viewModel: PasswordsListViewModel by viewModels {
+        PasswordViewModelFactory((activity?.application as App).repository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,10 +39,6 @@ class PasswordListFragment : Fragment() {
         binding = FragmentPasswordListBinding.inflate(layoutInflater)
         view = binding.root
         userID = Firebase.auth.currentUser?.uid ?: "NONE"
-
-        val viewModel: PasswordsListViewModel by viewModels {
-            PasswordViewModelFactory((activity?.application as App).repository)
-        }
 
         adapter = MyAdapter(object : PasswordActionListener {
             override fun onEditClick(password: Password) {
@@ -54,6 +53,7 @@ class PasswordListFragment : Fragment() {
 
             override fun onLeftArrowClick(elOpen: OpenElemBinding) {
                 Log.d("ddd", "OnArrowClick()")
+                //adapter.
                 elOpen.chevronRightImageView.visibility = View.VISIBLE
                 elOpen.favoriteBorderImageView.visibility = View.VISIBLE
                 elOpen.deleteImageView.visibility = View.VISIBLE
@@ -98,14 +98,22 @@ class PasswordListFragment : Fragment() {
             }
         })
 
-        viewModel.getPasswords(userID, isFavoriteFilterOn).observe(viewLifecycleOwner) {
+        viewModel.getPasswords(userID, 0).observe(viewLifecycleOwner) {
+            adapter.allPasswords = it
             adapter.passwords = it
         }
+        viewModel.getPasswords(userID, 1).observe(viewLifecycleOwner) {
+            adapter.likedPasswords = it
+        }
+
 
         val recyclerView = binding.recyclerView
         val manager = LinearLayoutManager(view.context)
-
         recyclerView.adapter = adapter
+        // Проверить, являются ли adapter и recyclerView.adapter одним объектом
+        Log.d("ddd", "recyclerView.adapter: " + recyclerView.adapter.toString())
+        Log.d("ddd", "adapter: $adapter")
+
         recyclerView.layoutManager = manager
 
         binding.addButtonView.setOnClickListener {

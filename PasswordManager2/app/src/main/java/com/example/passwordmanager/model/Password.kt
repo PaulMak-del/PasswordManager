@@ -20,7 +20,6 @@ data class Password (
     var password: String,
     val uid: String,
 ) {
-
     @PrimaryKey(autoGenerate = true) var id: Long = 0
     @ColumnInfo(name = "favorite") var isFavorite: Boolean = false
 }

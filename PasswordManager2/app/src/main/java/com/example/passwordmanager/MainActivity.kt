@@ -40,9 +40,11 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.action_favorite-> {
                 Toast.makeText(this, "favorite", Toast.LENGTH_LONG).show()
+                // Должен сказать адаптеру поменять список паролей и уведомить его об изменених
             }
             R.id.action_all_passwords-> {
                 Toast.makeText(this, "all", Toast.LENGTH_LONG).show()
+                // Должен сказать адаптеру поменять список паролей и уведомить его об изменених
             }
             else -> super.onOptionsItemSelected(item)
         }
