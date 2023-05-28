@@ -42,9 +42,10 @@ class PasswordListFragment : Fragment() {
         Log.d("ddd", "local adapter: $adapter")
 
         adapter.actionListener = object : PasswordActionListener {
-            override fun onEditClick(password: Password) {
+            override fun onEditClick(password: Password, holder: MyAdapter.ViewHolder) {
                 Snackbar.make(view, "OnEditClick", Snackbar.LENGTH_LONG).show()
                 val bundle = Bundle()
+                bundle.putInt("layoutPosition", holder.layoutPosition)
                 bundle.putInt("passwordID", password.id.toInt())
                 bundle.putString("passwordName", password.name)
                 bundle.putString("passwordPassword", password.password)

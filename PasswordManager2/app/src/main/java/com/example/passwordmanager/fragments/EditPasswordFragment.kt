@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.passwordmanager.App
+import com.example.passwordmanager.MyAdapter
 import com.example.passwordmanager.viewModels.PasswordViewModelFactory
 import com.example.passwordmanager.viewModels.PasswordsListViewModel
 import com.example.passwordmanager.R
@@ -20,6 +21,7 @@ class EditPasswordFragment : Fragment() {
     private val viewModel: PasswordsListViewModel by viewModels {
         PasswordViewModelFactory((activity?.application as App).repository)
     }
+    private lateinit var adapter: MyAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,7 +30,9 @@ class EditPasswordFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentEditPasswordBinding.inflate(layoutInflater)
         val view = binding.root
+        adapter = (activity?.application as App).adapter
 
+        val layoutPosition = requireArguments().getInt("layoutPosition")
         val id = requireArguments().getInt("passwordID")
         val name = requireArguments().getString("passwordName")
         val login = requireArguments().getString("passwordLogin")
@@ -50,7 +54,7 @@ class EditPasswordFragment : Fragment() {
                 Snackbar.make(view, "Поля не должны быть пустыми", Snackbar.LENGTH_LONG).show()
             }
             else {
-                viewModel.updatePasswordById(id, newName, newLogin, newPass)
+                viewModel.updatePasswordById(id, newName, newLogin, newPass, adapter, layoutPosition)
                 findNavController().navigate(R.id.action_editPasswordFragment_to_passwordListFragment)
             }
         }

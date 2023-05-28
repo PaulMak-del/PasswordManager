@@ -50,5 +50,9 @@
             android:name="passwordLogin"
             app:argType="string"
             android:defaultValue="NONE" />
+        <argument
+            android:name="layoutPosition"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 </navigation>

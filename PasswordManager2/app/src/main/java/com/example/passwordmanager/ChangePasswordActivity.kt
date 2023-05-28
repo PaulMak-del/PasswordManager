@@ -24,11 +24,10 @@ class ChangePasswordActivity : AppCompatActivity() {
             buttonConfirm.setOnClickListener {
                 Log.d("ddd", "ChangePasswordActivity: button clicked")
 
-                val oldPass = editTextOldPassword.text.toString()
                 val newPass = editTextNewPassword.text.toString()
                 val newPassConf = editTextNewPasswordConfirm.text.toString()
 
-                if (oldPass.trim().isEmpty() || newPass.trim().isEmpty() || newPassConf.trim().isEmpty()) {
+                if (newPass.trim().isEmpty() || newPassConf.trim().isEmpty()) {
                     Snackbar.make(view, "Поля не должны быть пустыми", Snackbar.LENGTH_LONG).show()
                 } else {
                     if (newPass.trim() != newPassConf.trim()) {

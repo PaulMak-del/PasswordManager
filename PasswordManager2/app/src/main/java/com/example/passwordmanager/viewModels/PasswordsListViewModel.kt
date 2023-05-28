@@ -1,6 +1,7 @@
 package com.example.passwordmanager.viewModels
 
 import androidx.lifecycle.*
+import com.example.passwordmanager.MyAdapter
 import com.example.passwordmanager.model.Password
 import com.example.passwordmanager.model.PasswordRepository
 import com.example.passwordmanager.model.User
@@ -25,12 +26,21 @@ class PasswordsListViewModel(
     }
     fun deletePassword(password: Password) = viewModelScope.launch {
         passwordRepository.deletePassword(password)
+
     }
     fun updatePassword(password: Password) = viewModelScope.launch {
         passwordRepository.updatePassword(password)
     }
-    fun updatePasswordById(id: Int, name: String, login: String, password: String) = viewModelScope.launch {
+    fun updatePasswordById(
+        id: Int,
+        name: String,
+        login: String,
+        password: String,
+        adapter: MyAdapter,
+        layoutPosition: Int
+    ) = viewModelScope.launch {
         passwordRepository.updatePasswordById(id, name, login, password)
+        adapter.notifyItemChanged(layoutPosition)
     }
 }
 

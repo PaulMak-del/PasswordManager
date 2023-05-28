@@ -1,6 +1,5 @@
 package com.example.passwordmanager
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -9,7 +8,7 @@ import com.example.passwordmanager.databinding.OpenElemBinding
 import com.example.passwordmanager.model.Password
 
 interface PasswordActionListener {
-    fun onEditClick(password: Password)
+    fun onEditClick(password: Password, holder: MyAdapter.ViewHolder)
     fun onLeftArrowClick(elOpen: OpenElemBinding)
     fun onRightArrowClick(elOpen: OpenElemBinding)
     fun onCopyClick(password: Password)
@@ -50,13 +49,14 @@ class MyAdapter(
                 notifyDataSetChanged()
                 onLaunchUpdate = true
             }
+            //notifyDataSetChanged()
         }
 
     class ViewHolder(
         private val binding: ItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(password: Password, clickListener: PasswordActionListener) {
+        fun bind(holder: ViewHolder, password: Password, clickListener: PasswordActionListener) {
             with(binding) {
                 elClosed.passwordNameTextView.text = password.name
                 if (password.isFavorite) {
@@ -69,7 +69,7 @@ class MyAdapter(
                     clickListener.onLeftArrowClick(elOpen)
                 }
                 elOpen.editImageView.setOnClickListener {
-                    clickListener.onEditClick(password)
+                    clickListener.onEditClick(password, holder)
                 }
                 elClosed.copyImage.setOnClickListener {
                     clickListener.onCopyClick(password)
@@ -88,20 +88,17 @@ class MyAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        Log.d("ddd", "MyAdapter.onCreateViewHolder")
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemBinding.inflate(inflater, parent, false)
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Log.d("ddd", "MyAdapter.onBindViewHolder {$position}")
         val password = passwords[position]
-        holder.bind(password, actionListener)
+        holder.bind(holder, password, actionListener)
     }
 
     override fun getItemCount(): Int {
-        Log.d("ddd", "MyAdapter.getItemCount: " + allPasswords.size.toString())
         return passwords.size
     }
 }
