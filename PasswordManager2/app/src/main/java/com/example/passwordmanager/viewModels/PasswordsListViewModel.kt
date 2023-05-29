@@ -5,6 +5,7 @@ import com.example.passwordmanager.MyAdapter
 import com.example.passwordmanager.model.Password
 import com.example.passwordmanager.model.PasswordRepository
 import com.example.passwordmanager.model.User
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class PasswordsListViewModel(
@@ -24,8 +25,10 @@ class PasswordsListViewModel(
     fun insertUser(user: User) = viewModelScope.launch {
         passwordRepository.insertUser(user)
     }
-    fun deletePassword(password: Password) = viewModelScope.launch {
+    fun deletePassword(password: Password, adapter: MyAdapter, layoutPosition: Int) = viewModelScope.launch {
         passwordRepository.deletePassword(password)
+        delay(100)
+        adapter.notifyItemChanged(layoutPosition)
 
     }
     fun updatePassword(password: Password) = viewModelScope.launch {
@@ -40,6 +43,7 @@ class PasswordsListViewModel(
         layoutPosition: Int
     ) = viewModelScope.launch {
         passwordRepository.updatePasswordById(id, name, login, password)
+        delay(100)
         adapter.notifyItemChanged(layoutPosition)
     }
 }
