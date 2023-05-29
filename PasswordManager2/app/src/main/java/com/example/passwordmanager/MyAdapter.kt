@@ -12,7 +12,7 @@ interface PasswordActionListener {
     fun onLeftArrowClick(elOpen: OpenElemBinding)
     fun onRightArrowClick(elOpen: OpenElemBinding)
     fun onCopyClick(password: Password)
-    fun onDeleteClick(password: Password, position: Int)
+    fun onDeleteClick(password: Password, holder: MyAdapter.ViewHolder)
     fun onFavoriteClick(password: Password, elOpen: OpenElemBinding)
 }
 
@@ -81,7 +81,7 @@ class MyAdapter(
                     clickListener.onFavoriteClick(password, elOpen)
                 }
                 elOpen.deleteImageView.setOnClickListener {
-                    clickListener.onDeleteClick(password, bindingAdapterPosition)
+                    clickListener.onDeleteClick(password, holder)
                 }
             }
         }

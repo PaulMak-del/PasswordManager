@@ -28,8 +28,7 @@ class PasswordsListViewModel(
     fun deletePassword(password: Password, adapter: MyAdapter, layoutPosition: Int) = viewModelScope.launch {
         passwordRepository.deletePassword(password)
         delay(100)
-        adapter.notifyItemChanged(layoutPosition)
-
+        adapter.notifyItemRemoved(layoutPosition)
     }
     fun updatePassword(password: Password) = viewModelScope.launch {
         passwordRepository.updatePassword(password)

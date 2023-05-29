@@ -77,10 +77,9 @@ class PasswordListFragment : Fragment() {
                 clipManager.setPrimaryClip(clipData)
             }
 
-            override fun onDeleteClick(password: Password, position: Int) {
-                Snackbar.make(view, "OnDeleteClick {$position}", Snackbar.LENGTH_LONG).show()
-                viewModel.deletePassword(password, adapter, position)
-                adapter.notifyItemRemoved(position)
+            override fun onDeleteClick(password: Password, holder: MyAdapter.ViewHolder) {
+                viewModel.deletePassword(password, adapter, holder.layoutPosition)
+                adapter.notifyItemRemoved(holder.layoutPosition)
             }
 
             override fun onFavoriteClick(
