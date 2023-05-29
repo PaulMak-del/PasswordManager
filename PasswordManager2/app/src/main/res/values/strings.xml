@@ -25,4 +25,5 @@
     <string name="login">Логин</string>
     <string name="email_tip">Введите Email</string>
     <string name="register_button">Зарегестрироваться</string>
+    <string name="generate">Случайный пароль</string>
 </resources>

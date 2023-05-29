@@ -30,6 +30,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewHelper"
         app:layout_constraintEnd_toEndOf="parent"
+        android:text="test25@mail.ru"
         />
 
     <EditText
@@ -45,6 +46,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etEmail"
         app:layout_constraintEnd_toEndOf="parent"
+        android:text="password00"
         />
 
     <androidx.appcompat.widget.AppCompatButton

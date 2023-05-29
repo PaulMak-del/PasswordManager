@@ -1,6 +1,7 @@
 package com.example.passwordmanager.fragments
 
 import android.os.Bundle
+import android.text.InputType
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -57,6 +58,18 @@ class EditPasswordFragment : Fragment() {
                 viewModel.updatePasswordById(id, newName, newLogin, newPass, adapter, layoutPosition)
                 findNavController().navigate(R.id.action_editPasswordFragment_to_passwordListFragment)
             }
+        }
+
+        binding.openEyeImage.setOnClickListener {
+            binding.editTextPassword.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            binding.openEyeImage.visibility = View.GONE
+            binding.closeEyeImage.visibility = View.VISIBLE
+        }
+
+        binding.closeEyeImage.setOnClickListener {
+            binding.editTextPassword.inputType = (InputType.TYPE_CLASS_TEXT or(InputType.TYPE_TEXT_VARIATION_PASSWORD))
+            binding.openEyeImage.visibility = View.VISIBLE
+            binding.closeEyeImage.visibility = View.GONE
         }
 
         return view

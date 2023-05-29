@@ -1,6 +1,7 @@
 package com.example.passwordmanager.fragments
 
 import android.os.Bundle
+import android.text.InputType
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import com.example.passwordmanager.model.Password
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import java.lang.Math.random
 
 class AddPasswordFragment : Fragment() {
     private lateinit var binding: FragmentAddPasswordBinding
@@ -47,6 +49,26 @@ class AddPasswordFragment : Fragment() {
 
                 findNavController().navigate(R.id.action_addPasswordFragment_to_passwordListFragment)
             }
+        }
+
+        binding.openEyeImage.setOnClickListener {
+            binding.editTextPassword.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            binding.openEyeImage.visibility = View.GONE
+            binding.closeEyeImage.visibility = View.VISIBLE
+        }
+
+        binding.closeEyeImage.setOnClickListener {
+            binding.editTextPassword.inputType = (InputType.TYPE_CLASS_TEXT or(InputType.TYPE_TEXT_VARIATION_PASSWORD))
+            binding.openEyeImage.visibility = View.VISIBLE
+            binding.closeEyeImage.visibility = View.GONE
+        }
+
+        binding.ButtonGenerate.setOnClickListener {
+            val length = (random() * 8 + 7).toInt()
+            val password = CharArray(length) {
+                listOf('a'..'z', 'A'..'Z', '0'..'9').random().random()
+            }
+            binding.editTextPassword.setText(password.joinToString(""))
         }
 
         return view
